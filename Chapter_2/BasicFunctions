@@ -1,0 +1,23 @@
+from time import sleep
+import cv2
+import numpy as np
+
+kernal = np.ones((2,2),np.uint8)
+
+img_Org = cv2.imread("Resources/dragon.jpg")
+img_Res = cv2.resize(img_Org,(500,700))# (Width , Height)
+imgGray = cv2.cvtColor(img_Res, cv2.COLOR_BGR2GRAY) # to convert to gray Scale
+imgBlur = cv2.GaussianBlur(img_Res,(21,13),0) # Ksize must be odd # GausianBlur for bluring img
+
+i = 150
+
+imgEdges = cv2.Canny(img_Res,i,i) # to detect edges
+imgDialation = cv2.dilate(imgEdges,kernal,iterations=1) # pass Canny img # edges are thicken
+imgEroded = cv2.erode(imgDialation,kernal,iterations=1) # pass Dialated img # edges are erroded
+cv2.imshow("Hellow",imgGray)
+cv2.imshow("Blur",imgBlur)
+cv2.imshow("Edges",imgEdges)
+cv2.imshow("Dilated",imgDialation)
+cv2.imshow("Erroded",imgEroded)
+cv2.waitKey(10)
+cv2.waitKey(0)
